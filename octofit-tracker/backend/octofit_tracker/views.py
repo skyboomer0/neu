@@ -1,14 +1,18 @@
+
 from rest_framework import viewsets, status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from .serializers import UserSerializer, TeamSerializer, ActivitySerializer, LeaderboardSerializer, WorkoutSerializer
 from .models import User, Team, Activity, Leaderboard, Workout
+import os
 
 @api_view(['GET', 'POST'])
 def api_root(request, format=None):
+    # Dynamisch Codespace-URL oder localhost verwenden
+    codespace_url = os.environ.get('CODESPACE_URL', 'localhost:8000')
+    base_url = f'https://{codespace_url}/' if 'app.github.dev' in codespace_url else f'http://{codespace_url}/'
     if request.method == 'POST':
         return Response({"message": "POST request received"}, status=status.HTTP_201_CREATED)
-    base_url = 'http://localhost:8000/'
     return Response({
         'users': base_url + 'api/users/?format=api',
         'teams': base_url + 'api/teams/?format=api',
