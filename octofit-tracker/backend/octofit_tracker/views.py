@@ -8,17 +8,16 @@ import os
 
 @api_view(['GET', 'POST'])
 def api_root(request, format=None):
-    # Dynamisch Codespace-URL oder localhost verwenden
-    codespace_url = os.environ.get('CODESPACE_URL', 'localhost:8000')
-    base_url = f'https://{codespace_url}/' if 'app.github.dev' in codespace_url else f'http://{codespace_url}/'
+    # Feste Codespace-URL für REST API Endpunkte
+    base_url = 'https://neu-8000.app.github.dev/api/'
     if request.method == 'POST':
         return Response({"message": "POST request received"}, status=status.HTTP_201_CREATED)
     return Response({
-        'users': base_url + 'api/users/?format=api',
-        'teams': base_url + 'api/teams/?format=api',
-        'activities': base_url + 'api/activities/?format=api',
-        'leaderboard': base_url + 'api/leaderboard/?format=api',
-        'workouts': base_url + 'api/workouts/?format=api'
+        'users': base_url + 'users/?format=api',
+        'teams': base_url + 'teams/?format=api',
+        'activities': base_url + 'activities/?format=api',
+        'leaderboard': base_url + 'leaderboard/?format=api',
+        'workouts': base_url + 'workouts/?format=api'
     })
 
 class UserViewSet(viewsets.ModelViewSet):
